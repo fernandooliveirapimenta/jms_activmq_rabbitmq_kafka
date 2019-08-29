@@ -21,7 +21,7 @@ public class JmsRest {
 
     @GetMapping(value = "/{msg}")
     public Map<String, String> enviar(@PathVariable String msg) {
-        jmsTemplate.convertAndSend("mailbox", new Email("info@example.com", "Hello"));
+        jmsTemplate.convertAndSend("mailbox", "email json");
         final Map<String, String> map = new HashMap<>();
         map.put("retorno","200");
         return map;

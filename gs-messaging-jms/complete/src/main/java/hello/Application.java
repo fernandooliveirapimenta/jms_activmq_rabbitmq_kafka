@@ -3,6 +3,7 @@ package hello;
 
 import javax.jms.ConnectionFactory;
 
+import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
@@ -26,16 +27,22 @@ public class Application {
         // This provides all boot's default to this factory, including the message converter
         // You could still override some of Boot's default if necessary.
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+        factory.setPubSubDomain(Boolean.TRUE);
         configurer.configure(factory, connectionFactory);
         return factory;
     }
 
-    @Bean // Serialize message content to json using TextMessage
-    public MessageConverter jacksonJmsMessageConverter() {
-        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-        converter.setTargetType(MessageType.TEXT);
-        converter.setTypeIdPropertyName("_type");
-        return converter;
+//    @Bean // Serialize message content to json using TextMessage
+//    public MessageConverter jacksonJmsMessageConverter() {
+//        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+//        converter.setTargetType(MessageType.TEXT);
+//        converter.setTypeIdPropertyName("_type");
+//        return converter;
+//    }
+
+    @Bean
+    public ActiveMQTopic topicFernando() {
+        return new ActiveMQTopic("topicFernando");
     }
 
     public static void main(String[] args) {
@@ -46,7 +53,7 @@ public class Application {
 
         // Send a message with a POJO - the template reuse the message converter
         System.out.println("Sending an email message.");
-        jmsTemplate.convertAndSend("mailbox", new Email("info@example.com", "Hello"));
+        jmsTemplate.convertAndSend("mailbox", "Email");
     }
 
 }
