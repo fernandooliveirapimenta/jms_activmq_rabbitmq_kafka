@@ -1,5 +1,12 @@
+// activemq 5
 docker pull rmohr/activemq
-docker run -p 61616:61616 -p 8161:8161 rmohr/activemq
+docker run -d -p 61616:61616 -p 8161:8161 rmohr/activemq
+
+// activemq-artemis
+docker pull vromero/activemq-artemis:2.9.0-alpine
+docker run -d -p 61616:61616 -p 8161:8161 -e ARTEMIS_USERNAME=admin -e ARTEMIS_PASSWORD=admin vromero/activemq-artemis:2.9.0-alpine
+
+
 
 61616 JMS
 8161  UI
